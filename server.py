@@ -48,7 +48,7 @@ class MyWebServer(SocketServer.BaseRequestHandler):
             addr="/deep/index.html"
 
         elif(os.path.isdir("www"+addr)):
-	    if("/" in addr):
+	    if("/" in addr[-1]):
 		addr=addr+"index.html"
 	    else:
 		addr=addr+"/index.html"
