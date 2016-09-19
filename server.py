@@ -42,27 +42,19 @@ class MyWebServer(SocketServer.BaseRequestHandler):
         HTTP_Version=self.data.split()[2]
 
 
-        if addr=="/":
-           addr="/index.html"
-        elif addr =="/deep" or  addr=="/deep/":
-            addr="/deep/index.html"
-
-        elif(os.path.isdir("www"+addr)):
+        if(os.path.isdir("www"+addr)):
 	    if("/" in addr[-1]):
 		addr=addr+"index.html"
 	    else:
 		addr=addr+"/index.html"
-        
 
-      
 
 	if ".html" in addr:
             mimetype="text/html"
         elif ".css" in addr:
             mimetype="text/css"
-	
 	else:
-	    mimetype="application/plain"
+	    mimetype="text/plain"
 
 	
 
@@ -70,14 +62,14 @@ class MyWebServer(SocketServer.BaseRequestHandler):
             StatusCode=" 404 Not Found"
             headers= HTTP_Version + StatusCode + "\r\n" + \
                       "Content-type: " + mimetype + "\r\n" +\
-                      "www" + addr + "\r\n" + '\r\n'
+                      "www" + addr + "\r\n\r\n" 
             Error_Page="<html><body><h1>404 Not Found</h1>"+\
             		"<p>The requested URL "+ addr + " was not found on this server.</p></body></html>"+"\r\n\r\n"
             Content_Length= str(len(headers)+len(Error_Page))
 
             headers= HTTP_Version + StatusCode + "\r\n" + \
                      "Content-type: " + mimetype +"\r\n"+"charset=utf-8"+"\r\n"+"Content-Length: "+ Content_Length+ "\r\n"+ \
-                     "www" + addr + "\r\n" + '\r\n'
+                     "www" + addr + "\r\n\r\n" 
             self.request.send(headers)
             self.request.send(Error_Page)
 
